@@ -76,6 +76,7 @@ or to allow all namespaces:
 
 N.B.: Just feel free to contact for any query and help
 ------------------------------------------------------
-Abdullah Al Arafat
-imbipul9@gmail.com
+Abdullah Al Arafat<br>
+imbipul9@gmail.com<br>
 +8801712192445
+
