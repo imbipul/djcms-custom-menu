@@ -74,6 +74,8 @@ or to allow all namespaces:
   DJCMS_CUSTOM_MENU_NAMESPACES = None
 
 
+N.B.: Just feel free to contact for any query and help
 
-
-
+Abdullah Al Arafat
+imbipul9@gmail.com
++8801712192445
