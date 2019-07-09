@@ -13,7 +13,7 @@ setup(
     long_description=README,
     long_description_content_type='text/markdown',
     author='Abdullah Al Arafat Bipul',
-    author='imbipul9@gmail.com',
+    author_email='imbipul9@gmail.com',
     license=None,
     url='https://github.com/imbipul/djcms-custom-menu',
     packages=find_packages(),
