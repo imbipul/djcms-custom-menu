@@ -1,0 +1,14 @@
+<li class="dd-item"
+    data-id="{{ page.id }}"
+    data-title="{{ page.title }}"
+    data-url="{{ page.url }}">
+{#    <div class="dd-handle">≡ {{ page.title }}</div>#}
+    <div class="dd-handle">{{ page.title }}</div><div class="menu-item-delete">X</div>
+    {% if page.children %}
+        <ol class="dd-list">
+            {% for page in page.children %}
+                {% include 'djcms_custom_menu/nestable_item.html' %}
+            {% endfor %}
+        </ol>
+    {% endif %}
+</li>

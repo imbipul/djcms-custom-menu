@@ -1,0 +1,228 @@
+{% load static %}
+
+<link type="text/css" rel="stylesheet" href="{% static "djcmscustommenu/ext/jquery.nestable.min.css" %}"/>
+<link type="text/css" rel="stylesheet" href="{% static "djcmscustommenu/css/admin.css" %}" />
+
+
+{% if not line.fields|length_is:'1' and not field.is_readonly %}
+{{ field.errors }}
+{% endif %}
+
+{% if field.is_checkbox %}
+    {{ field.field }}{{ field.label_tag }}
+{% else %}
+    {{ field.label_tag }}
+    {% if field.is_readonly %}
+        <p>{{ field.contents|linebreaksbr }}</p>
+    {% else %}
+        {{ field.field }}
+    {% endif %}
+{% endif %}
+{% if field.field.help_text %}
+    <p class="help">{{ field.field.help_text|safe }}</p>
+{% endif %}
+
+<section class="pages">
+
+    <div class="selected">
+        <h3>Selected Pages
+            <small>( Selected page items for this menu )</small>
+        </h3>
+        <aside class="menu-pages dd">
+            {%if menu_pages %}
+                <ol class="dd-list">
+                    {% for page in menu_pages %}
+{#                        {% include 'cms_named_menus/nestable_item.html' %}#}
+                        {% include 'djcms_custom_menu/menu_item.html' %}
+                    {% endfor %}
+                </ol>
+            {% endif %}
+        </aside>
+    </div>
+
+    <div class="available">
+        <h3>
+            Available Pages
+            <small>( Available published page items for this menu )</small>
+{#            <div class="checkbox" style="float: right;">#}
+{#                <label style="text-transform: capitalize;"><input id="include_child_items" type="checkbox">Include Child Items?</label>#}
+{#            </div>#}
+        </h3>
+
+        <div id="available_accordion">
+            <h3>Pages</h3>
+            <div>
+                <aside class="available-pages dd">
+                    <ol class="dd-list">
+                        {% for page in available_pages %}
+{#                            {% include 'cms_named_menus/nestable_item.html' %}#}
+                            {% include 'djcms_custom_menu/available_item.html' %}
+                        {% endfor %}
+                    </ol>
+                </aside>
+            </div>
+            <h3>Custom Link</h3>
+            <div>
+                <input type="text" name="menu_custom_link_title" id="menu_custom_link_title" placeholder="Title (e.g.: Google)" value="">
+                <input type="text" name="menu_custom_link_url" id="menu_custom_link_url" placeholder="Url (e.g.: https://www.google.com/)" value="">
+                <button type="button" name="menu_custom_link_submit_btn" id="menu_custom_link_submit_btn">Submit</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script src="{% static "djcmscustommenu/ext/jquery-3.3.1.min.js" %}"></script>
+<script src="{% static "djcmscustommenu/ext/jquery-ui.min.js" %}"></script>
+{#<script src="{% static "djcmscustommenu/ext/jquery.nestable.min.js" %}"></script>#}
+<script src="{% static "djcmscustommenu/ext/jquery.nestable.js" %}"></script>
+
+<script>
+    $(function () {
+        $( "#available_accordion" ).accordion();
+
+        $(document).on("click", "#menu_custom_link_submit_btn", function (event) {
+            var title = $("#menu_custom_link_title").val();
+            var url = $("#menu_custom_link_url").val();
+
+            var $newItem = $('<li>', {
+                class: 'dd-item',
+                'data-id': 0,
+                'data-title': title,
+                'data-url': url,
+                html: '<div class="dd-handle">' + title + '</div><div class="menu-item-delete">X</div>'
+            });
+
+            if ($("div.selected div.dd-empty").length > 0) {
+                $("div.selected div.dd-empty").remove();
+                $("div.selected aside.menu-pages").append('<ol class="dd-list"></ol>');
+            }
+
+            {#$newItem.find('.close').click(removeOnClick);#}
+            $($('div.selected ol.dd-list')[0]).append($newItem);
+            $newItem = null;
+
+            var data = $('.menu-pages.dd').nestable('serialize');
+            $('#id_pages').val(JSON.stringify(data));
+
+            $("#menu_custom_link_title").val("");
+            $("#menu_custom_link_url").val("");
+        });
+
+        $(document).on("click", ".menu-item-delete", function (event) {
+            $(this).closest('li.dd-item').remove();
+            var itemCount = $("aside.menu-pages ol.dd-list").find('li.dd-item').length;
+            if(itemCount < 1){
+                $("aside.menu-pages ol.dd-list").remove();
+                $("aside.menu-pages").append('<div class="dd-empty"></div>');
+            }
+
+            var data = $('.menu-pages.dd').nestable('serialize');
+            $('#id_pages').val(JSON.stringify(data));
+        });
+
+        $(document).on("click", ".menu-item-add", function (event) {
+            var id = $(this).closest('li.dd-item').attr('data-id');
+            var title = $(this).closest('li.dd-item').attr('data-title');
+            var url = $(this).closest('li.dd-item').attr('data-url');
+
+            var $newItem = $('<li>', {
+                class: 'dd-item',
+                'data-id': id,
+                'data-title': title,
+                'data-url': url,
+                html: '<div class="dd-handle">' + title + '</div><div class="menu-item-delete">X</div>'
+            });
+
+            if ($("div.selected div.dd-empty").length > 0) {
+                $("div.selected div.dd-empty").remove();
+                $("div.selected aside.menu-pages").append('<ol class="dd-list"></ol>');
+            }
+
+            {#$newItem.find('.close').click(removeOnClick);#}
+            $($('div.selected ol.dd-list')[0]).append($newItem);
+            $newItem = null;
+
+            var data = $('.menu-pages.dd').nestable('serialize');
+            $('#id_pages').val(JSON.stringify(data));
+        });
+    });
+
+    var availablePages = '{{ available_pages_json|safe }}';
+
+    // Output the new menu pages on change
+    function get_data(l, e, p){
+        var data;
+        data = $('.menu-pages.dd').nestable('serialize');
+
+        $('#id_pages').val(JSON.stringify(data));
+    }
+
+    // Rebuild the original list of available pages - as this shouldn't change
+    function beforeDragStop(l, e, p){
+        available_pages_options.json = availablePages;
+        $('.available-pages.dd').nestable('destroy').nestable(available_pages_options);
+    }
+
+    function itemRenderer(item_attrs, content, children, options, item) {
+        var item_attrs_string = $.map(item_attrs, function (value, key) {
+            return ' ' + key + '="' + value + '"';
+        }).join(' ');
+
+        var html = '<' + options.itemNodeName + item_attrs_string + '>';
+        html += '<' + options.handleNodeName + ' class="' + options.handleClass + '">';
+        html += '<' + options.contentNodeName + ' class="' + options.contentClass + '">';
+        html += content;
+        html += '</' + options.contentNodeName + '>';
+        html += '</' + options.handleNodeName + '><div class="menu-item-add">+</div>';
+        html += children;
+        html += '</' + options.itemNodeName + '>';
+
+        return html;
+    }
+    
+    // Remove child elements on click-drag - if set
+    function onDragStart(l, e, p){
+        if (!$('#include_child_items').is(":checked")) {
+            e[0].children[1].className = 'menu-item-delete';
+            e[0].children[1].innerHTML = 'X';
+            if (e[0].children.length > 2) {
+                for (i = 2; i < e[0].children.length; i++) {
+                    console.log(e[0].children[i]);
+                    e[0].children[i].remove();
+                }
+            }
+        }
+    }
+
+    // Output the content for the available pages when they're rebuilt
+    function contentCallback(item) {
+        {#return item.content || '' ? item.content : '≡ ' + item.title;#}
+        return item.content || '' ? item.content : '' + item.title;
+    }
+
+    // Standard options for each menu
+    options = {
+        scroll: true,
+        group: 1,
+        expandBtnHTML: '',
+        collapseBtnHTML: '',
+        callback: get_data,
+        beforeDragStop: beforeDragStop,
+    };
+
+    // Options for selected menus
+    menu_pages_options = $.extend({}, options);
+
+    // Options for available pages
+    available_pages_options = $.extend({}, options);
+    available_pages_options.onDragStart = onDragStart;
+    available_pages_options.contentCallback = contentCallback;
+
+    available_pages_options.itemRenderer = itemRenderer;
+
+    // Build nestable menus
+    $('.menu-pages.dd').nestable(menu_pages_options);
+    $('.available-pages.dd').nestable(available_pages_options);
+
+</script>

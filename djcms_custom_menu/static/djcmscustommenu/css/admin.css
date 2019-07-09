@@ -1,0 +1,107 @@
+.pages {
+  /*padding-left: 98px;*/
+  min-height: 350px;
+}
+.pages:before,
+.pages:after {
+  display: table;
+  content: "";
+}
+.pages:after {
+  clear: both;
+}
+.pages:before,
+.pages:after {
+  display: table;
+  content: "";
+}
+.pages:after {
+  clear: both;
+}
+.pages > div {
+  width: 48%;
+  float: left;
+  min-height: inherit;
+}
+.pages div h3 {
+  padding-left: 0;
+  padding-top: 25px;
+}
+.pages .available {
+  float: right;
+}
+.pages aside ol {
+  min-height: inherit;
+  margin-left: 0;
+}
+.pages aside ol.dd-list {
+  /* margin-left: 5%; */
+}
+.pages aside ol li button {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.field-pages textarea,
+.field-pages p.help {
+  display: none;
+}
+.dd-handle {
+  width:80%;
+  display:inline-block;
+  height:auto;
+  padding:15px 20px;
+  cursor:move;
+}
+.menu-item-delete{
+  padding:15px 20px;
+  background-color:red;
+  border: red 1px solid;
+  color: white;
+  display:inline-block;
+}
+.menu-item-add{
+  padding:11px 20px 19px 20px;
+  font-size: 26px;
+  background-color:green;
+  border: green 1px solid;
+  color: white;
+  display:inline-block;
+}
+
+aside.menu-pages{
+    height: 500px;
+    overflow-y: auto;
+}
+
+aside.available-pages{
+    height: 320px;
+    overflow-y: auto;
+}
+
+
+#available_accordion h3.ui-accordion-header, #available_accordion h3.ui-accordion-header::selection{
+    padding: 10px 20px !important;
+    border: #8a8a8a 1px solid;
+    background-color: #aaaaaa;
+    cursor: pointer;
+}
+
+#available_accordion div.ui-accordion-content{
+    padding: 0 20px 10px 20px !important;
+}
+
+#available_accordion div.ui-accordion-content input{
+    float: left;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding: 5px;
+}
+
+#available_accordion div.ui-accordion-content button {
+    float: left;
+    font-size: 14px !important;
+    padding: 10px 22px !important;
+    background-color: #e3e3e3 !important;
+}
