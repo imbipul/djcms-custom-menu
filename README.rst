@@ -40,7 +40,7 @@ Next, create your menu in the admin area using the drag and drop interface.
 
 Drag or add button click to add items as menu items:
 
-.. image:: ui.png
+.. image:: ui1.png
 
 
 You can also add external website links as menu item.
