@@ -26,7 +26,7 @@ setup(
         'django-autoslug>=1.7.2',
     ],
     package_data={
-        'readme': ['README.md'],
+        'readme': ['README.rst'],
         'license': ['LICENSE']
     },
     classifiers=[
