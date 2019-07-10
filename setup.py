@@ -36,8 +36,6 @@ setup(
         'Operating System :: OS Independent',
         'Framework :: Django',
         'Framework :: Django :: 2.1',
-        'CMS :: django-cms',
-        'CMS :: django-cms :: 3.6',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
