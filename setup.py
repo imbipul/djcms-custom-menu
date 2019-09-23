@@ -8,7 +8,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 
 setup(
     name='djcms-custom-menu',
-    version='1.0.2',
+    version='1.0.3',
     description='An extension for Django CMS that allows you to create and edit multiple menus like Wordpress. This is compatible for Python 3.6, Django 2.1.9, django-cms 3.6.0',
     long_description=README,
     long_description_content_type='text/markdown',
