@@ -16,7 +16,7 @@ Originally forked from:
 Installation
 ------------
 
-1. Install with pip ``pip3 install djcms-custom-menu``
+1. Install with pip ``pip install djcms-custom-menu``
 
 2. Add ``djcms_custom_menu`` to INSTALLED_APPS
 
